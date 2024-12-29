@@ -3,10 +3,12 @@ import React, { useState, useRef } from "react";
 const Images = () => {
   const inputRef = useRef(null);
   const [imagesData, setImagesData] = useState([]);
+  const [loading , setLoading] = useState(false)
   const [page, setPage] = useState(1); 
   const accessKey = import.meta.env.VITE_API_KEY;
 
   async function images(newPage) {
+    setLoading(true)
     try{
         if(inputRef.current.value === ``){
             alert("Please fill the field")
@@ -27,6 +29,7 @@ const Images = () => {
             
             setImagesData((prevImages) => [...prevImages, ...data.results]);
           }
+          setLoading(false)
     }
    catch(error){
     alert("Something went wrong")
@@ -58,13 +61,14 @@ const Images = () => {
             ))}
           </div>
         </>
-      )}
+      ) }
+      {loading && <p>Loading...</p>}
 
-      {imagesData.length >= 10 && (
+      {imagesData.length >= 10 && 
         <button onClick={showMore} className="show-more">
           Show More
         </button>
-      )}
+      }
     </div>
   );
 };
