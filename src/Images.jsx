@@ -16,12 +16,15 @@ const Images = () => {
   }, [imagesData, bigImage]);
 
   async function images(newPage) {
+    if(inputRef.current.value === "") {
+      alert("Please fill the field");
+      setImagesData([])
+      setBigImage(null)
+      return;
+  }
     setLoading(true);
     try {
-        if(inputRef.current.value === "") {
-            alert("Please fill the field");
-            return;
-        }
+       
         const url = `https://api.unsplash.com/search/photos?page=${newPage}&query=${inputRef.current.value}&client_id=${accessKey}`;
         const response = await fetch(url);
         const data = await response.json();
@@ -56,7 +59,7 @@ const Images = () => {
   return (
     <div>
       <h1>Search for any images</h1>
-      <input onKeyDown={(e) => enter(e)} ref={inputRef} type="text" />
+      <input placeholder="Enter the word you are searching images for" onKeyDown={(e) => enter(e)} ref={inputRef} type="text" />
       <button onClick={() => images(1)}>Search</button><br />
       {imagesData.length > 0 && (
         <img className="big-image" src={bigImage} alt="" />
