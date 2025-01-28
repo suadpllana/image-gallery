@@ -8,7 +8,10 @@ const Images = () => {
   const [bigImage, setBigImage] = useState();
   const accessKey = import.meta.env.VITE_API_KEY;
 
-  
+  useEffect(() => {
+    inputRef.current.value = "programming";
+    images(1)
+  },[])
   useEffect(() => {
     if (imagesData.length > 0 && !bigImage) {
       setBigImage(imagesData[0].urls.small);
